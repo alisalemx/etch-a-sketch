@@ -1,0 +1,29 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Comic Sans MS", sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  gap: 1rem;
+}
+
+.sketchpad {
+  display: flex;
+  flex-wrap: wrap;
+  width: 640px;
+  height: 640px;
+}
+
+.box {
+  flex: 1 1 3.125%;
+  height: 3.125%;
+  background-color: #eeeeee;
+  border: 1px solid white;
+}
