@@ -1,60 +1,59 @@
-// DOM elements
-const cta = document.querySelector(".user-input-cta");
-const sketchpad = document.querySelector(".sketchpad");
-const titleElement = document.querySelector(".sketchpad-title");
+const titleElem = document.querySelector(".sketchpad-title");
+const ctaElem = document.querySelector(".user-input-cta");
+const sketchpadElem = document.querySelector(".sketchpad");
 
 runApp();
 
 function runApp() {
   colorizeTitle();
-  cta.addEventListener("click", () => {
-    const userInput = getUserInput();
 
-    generateBoxes(userInput);
+  ctaElem.addEventListener("click", () => {
+    const numBoxes = getUserInput();
+    generateBoxes(numBoxes);
   });
 }
 
 function getUserInput() {
   // Integers between 2 and 100 are allowed
   const isValidNumber = (number) => Number.isInteger(number) && number >= 2 && number <= 100;
-
   let userInput;
+
   do {
     userInput = prompt("Enter a number between 2 and 100 boxes:");
-    // User cancels prompt
+
+    // Null return is handled by generateBoxes()
     if (userInput === null) { return null; }
-    // Convert prompt string to a number
+
+    // Prompts return a string > convert to a number
     userInput = parseInt(userInput, 10);
   } while (!isValidNumber(userInput));
 
   return userInput;
 }
 
-function generateBoxes(userInput) {
+function generateBoxes(numBoxes) {
   // Handle cancellation
-  if (userInput === null) {
-    console.log("User canceled input.");
+  if (numBoxes === null) {
+    console.log("User cancelled input.");
     return;
   }
 
-  // Reset sketchpad
-  sketchpad.innerHTML = "";
-  let boxDivs = "";
-
-  for (let i = 1; i <= userInput ** 2; i++) {
-    boxDivs += `<div class="box"></div>`;
+  // Reset sketchpad and fill it with boxes
+  sketchpadElem.innerHTML = "";
+  let boxElemString = "";
+  for (let i = 1; i <= numBoxes ** 2; i++) {
+    boxElemString += `<div class="box"></div>`;
   }
+  sketchpadElem.innerHTML = boxElemString;
 
-  sketchpad.innerHTML = boxDivs;
-
-  const boxes = document.querySelectorAll(".box");
-
-  boxes.forEach(box => {
-    // Set box dimensions to an equal percentage based on number of boxes
-    box.style.cssText = `flex: 1 1 ${100 / userInput}%; height: ${100 / userInput}%;`;
-    // Change color on mouseover
-    box.addEventListener("mouseover", () => {
-      box.style.backgroundColor = generateRandomColor();
+  // Style boxes
+  const boxElems = document.querySelectorAll(".box");
+  boxElems.forEach(boxElem => {
+    // Set equal number of boxes on the x and y axis
+    boxElem.style.cssText = `flex: 1 1 ${100 / numBoxes}%; height: ${100 / numBoxes}%;`;
+    // Set a random color on hover
+    boxElem.addEventListener("mouseover", () => {
+      boxElem.style.backgroundColor = generateRandomColor();
     });
   });
 }
@@ -68,14 +67,13 @@ function generateRandomColor() {
 }
 
 function colorizeTitle() {
-  // Break the textContent into individual characters wrapped in spans
-  const titleText = titleElement.textContent;
-  titleElement.innerHTML = '';
+  const titleText = titleElem.textContent;
 
+  titleElem.innerHTML = '';
   for (let i = 0; i < titleText.length; i++) {
-    const span = document.createElement('span');
-    span.textContent = titleText[i];
-    span.style.color = generateRandomColor();
-    titleElement.appendChild(span);
+    const spanElem = document.createElement('span');
+    spanElem.textContent = titleText[i];
+    spanElem.style.color = generateRandomColor();
+    titleElem.appendChild(spanElem);
   }
 }
